@@ -1,6 +1,7 @@
 const questionEle = document.getElementById("question");
-const choicesTextElems = Array.from(document.getElementsByClassName("choice-text"));
-const choicesContainerElems = Array.from(document.getElementsByClassName("choice-container"));
+const choicesTextElems = Array.from(
+  document.getElementsByClassName("choice-text")
+);
 
 let acceptingAnswers = false;
 let questions = [
@@ -39,10 +40,10 @@ getNextQuestion = (availableQuestions) => {
 
 setNextQuestionAndChoices = (nextQuestion) => {
   questionEle.innerText = nextQuestion.question;
-
   choicesTextElems.forEach((choice) => {
     choice.innerText = nextQuestion["choice" + choice.dataset.number];
   });
+  acceptingAnswers = true;
 };
 
 playGame = (availableQuestions) => {
@@ -51,19 +52,28 @@ playGame = (availableQuestions) => {
   setNextQuestionAndChoices(nextQuestion);
 };
 
-choicesContainerElems.forEach((choiceElem) => {
+choicesTextElems.forEach((choiceElem) => {
   choiceElem.addEventListener("click", (e) => {
     if (!acceptingAnswers) return;
 
-    let selectedChoice = parseInt(e.target.dataset.number);
-    if (selectedChoice === currentQuestion.answer) score++;
-    availableQuestions.splice(currentQuestionIdx, 1);
-
-    if (availableQuestions.length) playGame(availableQuestions);
-    else {
-      alert("Game Over! Score = " + score);
-      window.location.replace("/");
+    acceptingAnswers = false;
+    let selectionClass = "incorrect";
+    let selectedChoice = e.target;
+    if (parseInt(selectedChoice.dataset.number) === currentQuestion.answer) {
+      score++;
+      selectionClass = "correct";
     }
+    selectedChoice.parentElement.classList.add(selectionClass);
+    setTimeout(() => {
+      selectedChoice.parentElement.classList.remove(selectionClass);
+      availableQuestions.splice(currentQuestionIdx, 1);
+
+      if (availableQuestions.length) playGame(availableQuestions);
+      else {
+        alert("Game Over! Score = " + score);
+        window.location.replace("/");
+      }
+    }, 1000);
   });
 });
 

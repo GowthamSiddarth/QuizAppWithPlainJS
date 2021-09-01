@@ -24,3 +24,11 @@
   padding: 1.5rem;
   width: 100%;
 }
+
+.correct {
+  background-color: rgb(104, 201, 104);
+}
+
+.incorrect {
+  background-color: rgb(252, 90, 90);
+}
