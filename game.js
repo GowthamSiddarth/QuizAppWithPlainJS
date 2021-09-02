@@ -58,10 +58,7 @@ choicesTextElems.forEach((choiceElem) => {
       availableQuestions.splice(currentQuestionIdx, 1);
 
       if (availableQuestions.length) playGame(availableQuestions);
-      else {
-        alert("Game Over! Score = " + score);
-        window.location.replace("/");
-      }
+      else window.location.replace("/end.html");
     }, 1000);
   });
 });
