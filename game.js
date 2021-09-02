@@ -19,7 +19,10 @@ setNextQuestionAndChoices = (nextQuestion) => {
 
 updateQuestionNumber = (questionNum) => {
   const questionNumberEle = document.getElementById("questionNumber");
-  questionNumberEle.innerText = `${questionNum}/${MAX_QUESTIONS}`;
+  questionNumberEle.innerText = `Question ${questionNum}/${MAX_QUESTIONS}`;
+
+  const progressBarEle = document.getElementById('progressBarFull');
+  progressBarEle.style.width = `${(questionNum/MAX_QUESTIONS) * 100}%`;
 };
 
 updateScore = (score) => {
