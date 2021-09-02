@@ -21,14 +21,14 @@ updateQuestionNumber = (questionNum) => {
   const questionNumberEle = document.getElementById("questionNumber");
   questionNumberEle.innerText = `Question ${questionNum}/${MAX_QUESTIONS}`;
 
-  const progressBarEle = document.getElementById('progressBarFull');
-  progressBarEle.style.width = `${(questionNum/MAX_QUESTIONS) * 100}%`;
+  const progressBarEle = document.getElementById("progressBarFull");
+  progressBarEle.style.width = `${(questionNum / MAX_QUESTIONS) * 100}%`;
 };
 
 updateScore = (score) => {
-    const scoreEle = document.getElementById('score');
-    scoreEle.innerText = score;
-}
+  const scoreEle = document.getElementById("score");
+  scoreEle.innerText = score;
+};
 
 playGame = (availableQuestions) => {
   let currQuestionNum = MAX_QUESTIONS - availableQuestions.length + 1;
@@ -58,7 +58,10 @@ choicesTextElems.forEach((choiceElem) => {
       availableQuestions.splice(currentQuestionIdx, 1);
 
       if (availableQuestions.length) playGame(availableQuestions);
-      else window.location.replace("/end.html");
+      else {
+        localStorage.setItem("recentScore", score);
+        window.location.replace("/end.html");
+      }
     }, 1000);
   });
 });
