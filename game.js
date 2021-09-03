@@ -73,10 +73,24 @@ let currentQuestionIdx = -1;
 let score = 0;
 let acceptingAnswers = true;
 
-fetch("questions.json")
+fetch("https://opentdb.com/api.php?amount=10&category=18&type=multiple")
   .then((res) => res.json())
-  .then((questions) => {
-    availableQuestions = [...questions];
+  .then((res) => {
+    availableQuestions = res.results.map((question) => {
+      const choices = question.incorrect_answers;
+      const answer_index = Math.floor(Math.random() * 4);
+      choices.splice(answer_index, 0, question.correct_answer);
+
+      return {
+        question: question.question,
+        choice1: choices[0],
+        choice2: choices[1],
+        choice3: choices[2],
+        choice4: choices[3],
+        answer: answer_index + 1,
+      };
+    });
+
     MAX_QUESTIONS = availableQuestions.length;
     playGame(availableQuestions);
   });
