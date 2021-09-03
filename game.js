@@ -2,6 +2,8 @@ const questionEle = document.getElementById("question");
 const choicesTextElems = Array.from(
   document.getElementsByClassName("choice-text")
 );
+const gameEle = document.getElementById("game");
+const loaderEle = document.getElementById("loader");
 
 getNextQuestion = (availableQuestions) => {
   let nextQuestionIdx = Math.floor(Math.random() * availableQuestions.length);
@@ -15,6 +17,9 @@ setNextQuestionAndChoices = (nextQuestion) => {
     choice.innerText = nextQuestion["choice" + choice.dataset.number];
   });
   acceptingAnswers = true;
+
+  gameEle.classList.remove("hidden");
+  loaderEle.classList.add("hidden");
 };
 
 updateQuestionNumber = (questionNum) => {
@@ -93,4 +98,8 @@ fetch("https://opentdb.com/api.php?amount=10&category=18&type=multiple")
 
     MAX_QUESTIONS = availableQuestions.length;
     playGame(availableQuestions);
+  })
+  .catch((err) => {
+    alert("Error! Please try again.");
+    window.location.replace("/");
   });
